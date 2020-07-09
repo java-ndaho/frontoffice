@@ -3,6 +3,7 @@ package com.honore.catalogue.controller;
 import org.example.models.Catalogue;
 import org.example.models.Work;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,31 +14,20 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "WorkDetailsServlet", urlPatterns = {"/work-details"})
 public class WorkDetailsServlet extends HttpServlet {
-	
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- 
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final long id = Long.parseLong(request.getParameter("id"));
+        final long id = Long.parseLong(request.getParameter("identifiant"));
         Work work = Catalogue.listsOfWorks.stream()
-                .filter(w->w.getId()==(id))
+                .filter(w -> w.getId() == (id))
                 .findFirst().get();
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
 
-
-        out.println("<html><body><h1>Descriptif de l'oeuvre</h1> <br>");
-        out.println("<p>Titre: "+work.getTitle()+"</p> <br>");
-        out.println("<p>Annee: "+work.getAnnee()+"</p><br>");
-        out.println("<p>Genre: "+work.getGenre()+"</p><br>");
-        out.println("<p>Artiste: "+work.getMainArtist().getName()+"</p><br>");
-        out.println("<p>Résumé: "+work.getSummary() +"</p><br>");
-        out.println("<form action=\"addToCart\" method=\"post\">\n" +
-                "  <input type=\"hidden\" name=\"identifiant\" value="+work.getId()+"><br>\n" +
-                "   <input type=\"submit\" value=\"Ajouter au caddie\">\n" +
-                "</form>");
-        out.println("</html></body>");
+        request.setAttribute("work",work);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/work-details.jsp");
+        requestDispatcher.forward(request, response);
 
     }
 }
