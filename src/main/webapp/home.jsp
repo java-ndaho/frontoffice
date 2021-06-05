@@ -9,7 +9,7 @@
 </head>
 <body>
 <html>
-<body><h1>OnlineStore, Votre boutique multimedia en ligne</h1><br>
+<body><h1>OnlineStore, Votre boutique multimedia en ligne </h1><br>
 <a href="catalogue">Accés aux au catalogue</a><br>
 </body>
 </html>
